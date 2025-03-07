@@ -1,0 +1,208 @@
+version: '3.8'
+services:
+  # Node1 Failure Detector
+  node1_failure:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    container_name: node1_failure
+    environment:
+      NODE_ID: "node1"
+      PORT: "50051"
+      # Use failure container endpoints here.
+      MEMBERSHIP_LIST: "node2:node2_failure:50052,node3:node3_failure:50053,node4:node4_failure:50054,node5:node5_failure:50055"
+    ports:
+      - "50051:50051"
+    networks:
+      - swim_net
+
+  # Node1 Dissemination (for Join/Disseminate RPCs)
+  node1_dissemination:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    container_name: node1_dissemination
+    environment:
+      NODE_ID: "node1"
+      PORT: "60051"
+      MEMBERSHIP_LIST: "node2:node2_dissemination:60051,node3:node3_dissemination:60051,node4:node4_dissemination:60051,node5:node5_dissemination:60051"
+    ports:
+      - "60051:60051"
+    networks:
+      - swim_net
+
+  # Node2 Failure Detector
+  node2_failure:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    container_name: node2_failure
+    environment:
+      NODE_ID: "node2"
+      PORT: "50052"
+      MEMBERSHIP_LIST: "node1:node1_failure:50051,node3:node3_failure:50053,node4:node4_failure:50054,node5:node5_failure:50055"
+    ports:
+      - "50052:50052"
+    networks:
+      - swim_net
+
+  # Node2 Dissemination
+  node2_dissemination:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    container_name: node2_dissemination
+    environment:
+      NODE_ID: "node2"
+      PORT: "60051"
+      MEMBERSHIP_LIST: "node1:node1_dissemination:60051,node3:node3_dissemination:60051,node4:node4_dissemination:60051,node5:node5_dissemination:60051"
+    ports:
+      - "60052:60051"
+    networks:
+      - swim_net
+
+  # Node3 Failure Detector
+  node3_failure:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    container_name: node3_failure
+    environment:
+      NODE_ID: "node3"
+      PORT: "50053"
+      MEMBERSHIP_LIST: "node1:node1_failure:50051,node2:node2_failure:50052,node4:node4_failure:50054,node5:node5_failure:50055"
+    ports:
+      - "50053:50053"
+    networks:
+      - swim_net
+
+  # Node3 Dissemination
+  node3_dissemination:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    container_name: node3_dissemination
+    environment:
+      NODE_ID: "node3"
+      PORT: "60051"
+      MEMBERSHIP_LIST: "node1:node1_dissemination:60051,node2:node2_dissemination:60051,node4:node4_dissemination:60051,node5:node5_dissemination:60051"
+    ports:
+      - "60053:60051"
+    networks:
+      - swim_net
+
+  # Node4 Failure Detector
+  node4_failure:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    container_name: node4_failure
+    environment:
+      NODE_ID: "node4"
+      PORT: "50054"
+      MEMBERSHIP_LIST: "node1:node1_failure:50051,node2:node2_failure:50052,node3:node3_failure:50053,node5:node5_failure:50055"
+    ports:
+      - "50054:50054"
+    networks:
+      - swim_net
+
+  # Node4 Dissemination
+  node4_dissemination:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    container_name: node4_dissemination
+    environment:
+      NODE_ID: "node4"
+      PORT: "60051"
+      MEMBERSHIP_LIST: "node1:node1_dissemination:60051,node2:node2_dissemination:60051,node3:node3_dissemination:60051,node5:node5_dissemination:60051"
+    ports:
+      - "60054:60051"
+    networks:
+      - swim_net
+
+  # Node5 Failure Detector
+  node5_failure:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    container_name: node5_failure
+    environment:
+      NODE_ID: "node5"
+      PORT: "50055"
+      MEMBERSHIP_LIST: "node1:node1_failure:50051,node2:node2_failure:50052,node3:node3_failure:50053,node4:node4_failure:50054"
+    ports:
+      - "50055:50055"
+    networks:
+      - swim_net
+
+  # Node5 Dissemination
+  node5_dissemination:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    container_name: node5_dissemination
+    environment:
+      NODE_ID: "node5"
+      PORT: "60051"
+      MEMBERSHIP_LIST: "node1:node1_dissemination:60051,node2:node2_dissemination:60051,node3:node3_dissemination:60051,node4:node4_dissemination:60051"
+    ports:
+      - "60055:60051"
+    networks:
+      - swim_net
+
+  # Node6 Failure Detector (Manual start via profile "node6")
+  node6_failure:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    container_name: node6_failure
+    environment:
+      NODE_ID: "node6"
+      PORT: "50056"
+      # Make sure to reference failure container endpoints for other nodes!
+      MEMBERSHIP_LIST: "node1:node1_failure:50051,node2:node2_failure:50052,node3:node3_failure:50053,node4:node4_failure:50054,node5:node5_failure:50055"
+    ports:
+      - "50056:50056"
+    networks:
+      - swim_net
+    profiles:
+      - "node6"
+
+  # Node6 Dissemination (Manual start)
+  node6_dissemination:
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    container_name: node6_dissemination
+    environment:
+      NODE_ID: "node6"
+      PORT: "60051"
+      # Dissemination endpoints for join RPCs can remain as before.
+      MEMBERSHIP_LIST: "node1:node1_dissemination:60051,node2:node2_dissemination:60051,node3:node3_dissemination:60051,node4:node4_dissemination:60051,node5:node5_dissemination:60051"
+    ports:
+      - "60061:60051"
+    networks:
+      - swim_net
+    profiles:
+      - "node6"
+
+  # Node6 Join Client (Manual start)
+  node6_join:
+    build:
+      context: ./node
+      dockerfile: Dockerfile.join
+    container_name: node6_join
+    environment:
+      NODE_ID: "node6"
+      NODE_ADDRESS: "node6_failure:50056"
+      BOOTSTRAP_ADDRESS: "node1_dissemination:60051"
+      LOCAL_FAILURE_DETECTOR: "node6_failure:50056"
+    networks:
+      - swim_net
+    profiles:
+      - "node6"
+
+networks:
+  swim_net:
+    driver: bridge
