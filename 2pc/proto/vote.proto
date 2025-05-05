@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package vote;
+
+service VoteService {
+  rpc VoteRequest (VoteRequestMessage) returns (VoteResponse);
+  rpc DecisionNotify (DecisionMessage) returns (Ack);
+}
+
+message VoteRequestMessage {
+  string transaction_id = 1;
+}
+
+message VoteResponse {
+  enum Vote {
+    COMMIT = 0;
+    ABORT = 1;
+  }
+  Vote vote = 1;
+  string participant_id = 2;
+}
+
+message DecisionMessage {
+  enum Decision {
+    GLOBAL_COMMIT = 0;
+    GLOBAL_ABORT = 1;
+  }
+  Decision decision = 1;
+  string transaction_id = 2;
+}
+
+message Ack {
+  string message = 1;
+}

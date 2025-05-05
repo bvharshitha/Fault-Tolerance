@@ -1,0 +1,9 @@
+{
+    "name": "decision-phase",
+    "version": "1.0.0",
+    "dependencies": {
+      "@grpc/grpc-js": "^1.8.0",
+      "@grpc/proto-loader": "^0.7.5"
+    }
+  }
+  

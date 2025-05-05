@@ -1,0 +1,8 @@
+FROM node:18
+
+WORKDIR /decision
+
+COPY decision/ .
+RUN npm install
+
+CMD ["sh", "-c", "node participant.js & sleep 5 && [ \"$ROLE\" = \"coordinator\" ] && node coordinator.js || tail -f /dev/null"]

@@ -1,0 +1,90 @@
+services:
+  raft1:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    container_name: raft1
+    command: ["python", "app/raft_node.py", "1"]
+    ports:
+      - "50051:50051"
+
+  raft2:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    container_name: raft2
+    command: ["python", "app/raft_node.py", "2"]
+    ports:
+      - "50052:50052"
+
+  raft3:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    container_name: raft3
+    command: ["python", "app/raft_node.py", "3"]
+    ports:
+      - "50053:50053"
+
+  raft4:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    container_name: raft4
+    command: ["python", "app/raft_node.py", "4"]
+    ports:
+      - "50054:50054"
+
+  raft5:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    container_name: raft5
+    command: ["python", "app/raft_node.py", "5"]
+    ports:
+      - "50055:50055"
+
+  js-node1:
+    build:
+      context: .
+      dockerfile: Dockerfile.nodejs
+    container_name: js-node1
+    command: ["node", "raft_node.js", "1"]
+    ports:
+      - "6001:6001"
+
+  js-node2:
+    build:
+      context: .
+      dockerfile: Dockerfile.nodejs
+    container_name: js-node2
+    command: ["node", "raft_node.js", "2"]
+    ports:
+      - "6002:6002"
+
+  js-node3:
+    build:
+      context: .
+      dockerfile: Dockerfile.nodejs
+    container_name: js-node3
+    command: ["node", "raft_node.js", "3"]
+    ports:
+      - "6003:6003"
+
+  js-node4:
+    build:
+      context: .
+      dockerfile: Dockerfile.nodejs
+    container_name: js-node4
+    command: ["node", "raft_node.js", "4"]
+    ports:
+      - "6004:6004"
+
+  js-node5:
+    build:
+      context: .
+      dockerfile: Dockerfile.nodejs
+    container_name: js-node5
+    command: ["node", "raft_node.js", "5"]
+    ports:
+      - "6005:6005"

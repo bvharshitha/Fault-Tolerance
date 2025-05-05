@@ -1,0 +1,4 @@
+participant1=COMMIT
+participant2=COMMIT
+participant3=COMMIT
+participant4=COMMIT

@@ -1,0 +1,14 @@
+FROM node:18-slim
+
+WORKDIR /app
+
+# Copy proto definitions
+COPY proto/ proto/
+
+# Copy Node.js code and package files
+COPY nodejs/package*.json ./
+COPY nodejs/ ./
+
+RUN npm install
+
+CMD ["node", "raft_node.js", "1"]

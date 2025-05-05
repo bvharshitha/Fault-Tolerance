@@ -1,0 +1,120 @@
+services:
+  coordinator:
+    build:
+      context: .
+      dockerfile: Dockerfile.voting
+    environment:
+      - ROLE=coordinator
+    volumes:
+      - shared-data:/shared
+    depends_on:
+      - participant1
+      - participant2
+      - participant3
+      - participant4
+
+  participant1:
+    build:
+      context: .
+      dockerfile: Dockerfile.voting
+    environment:
+      - ROLE=participant
+      - PARTICIPANT_ID=participant1
+      - PORT=50051
+    ports:
+      - "50051:50051"
+
+  participant2:
+    build:
+      context: .
+      dockerfile: Dockerfile.voting
+    environment:
+      - ROLE=participant
+      - PARTICIPANT_ID=participant2
+      - PORT=50052
+    ports:
+      - "50052:50052"
+
+  participant3:
+    build:
+      context: .
+      dockerfile: Dockerfile.voting
+    environment:
+      - ROLE=participant
+      - PARTICIPANT_ID=participant3
+      - PORT=50053
+    ports:
+      - "50053:50053"
+
+  participant4:
+    build:
+      context: .
+      dockerfile: Dockerfile.voting
+    environment:
+      - ROLE=participant
+      - PARTICIPANT_ID=participant4
+      - PORT=50054
+    ports:
+      - "50054:50054"
+
+  decision1:
+    build:
+      context: .
+      dockerfile: Dockerfile.decision
+    environment:
+      - ROLE=participant
+      - PARTICIPANT_ID=participant1
+      - DECISION_PORT=50055
+    ports:
+      - "50055:50055"
+
+  decision2:
+    build:
+      context: .
+      dockerfile: Dockerfile.decision
+    environment:
+      - ROLE=participant
+      - PARTICIPANT_ID=participant2
+      - DECISION_PORT=50056
+    ports:
+      - "50056:50056"
+
+  decision3:
+    build:
+      context: .
+      dockerfile: Dockerfile.decision
+    environment:
+      - ROLE=participant
+      - PARTICIPANT_ID=participant3
+      - DECISION_PORT=50057
+    ports:
+      - "50057:50057"
+
+  decision4:
+    build:
+      context: .
+      dockerfile: Dockerfile.decision
+    environment:
+      - ROLE=participant
+      - PARTICIPANT_ID=participant4
+      - DECISION_PORT=50058
+    ports:
+      - "50058:50058"
+
+  decision-coordinator:
+    build:
+      context: .
+      dockerfile: Dockerfile.decision
+    environment:
+      - ROLE=coordinator
+      - PARTICIPANT_ID=coordinator
+    volumes:
+      - shared-data:/shared
+    depends_on:
+      - decision1
+      - decision2
+      - decision3
+      - decision4
+
+volumes:
+  shared-data:
