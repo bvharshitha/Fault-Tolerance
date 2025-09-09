@@ -1,6 +1,6 @@
 ## Project Structure
 
-This repository contains three separate implementations of fault tolerance protocols in distributed systems. For simplicity and organization, all three projects are placed in a single repository. Each folder corresponds to an individual protocol:
+This repository contains three separate implementations of fault tolerance protocols in distributed systems. For simplicity, all three projects are placed in a single repository. Each folder corresponds to an individual protocol:
 
 1. **SWIM Protocol** – Failure detection and membership updates using direct/indirect pinging.
 2. **Two-Phase Commit (2PC)** – Transaction coordination with vote and decision phases across distributed nodes.
